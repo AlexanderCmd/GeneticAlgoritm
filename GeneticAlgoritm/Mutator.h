@@ -1,31 +1,34 @@
 #ifndef MUTATOR_H
 #define MUTATOR_H
 
-#include "Population.h"
+//#include "Population.h"
+#include <random>
+#include "Strategy.h"
 
-class Mutator {
+class Mutator : Strategy {
 public:
 	Mutator() {};
-	void Mutation(Population &obj) {
+
+	void metod(Population &obj) {
+		std::default_random_engine grain;
+		std::uniform_int_distribution<int> rand{ 0, 9 };
 		double probability = 0;
-		Function func;
 		Particle tmp;
 		for (size_t i = 0; i < 100; ++i) {
 			tmp = obj.getParticle(i);
-			probability = rand() % 9;
+			probability = rand(grain);
 			if (probability < 4) // с вероятностью 40 % мутирует x
 				if (probability < 2)
 					tmp.setX(obj.getParticle(i).getX() + 1);
 				else
 					tmp.setX(obj.getParticle(i).getX() - 1);
-			probability = rand() % 9;
+			probability = rand(grain);
 			if (probability < 4) // с вероятностью 40 % мутирует y
 				if (probability < 2)
 					tmp.setY(obj.getParticle(i).getY() + 1);
 				else
 					tmp.setY(obj.getParticle(i).getY() - 1);
-			tmp.setZ(func.function_value(obj.getParticle(i).getX(), obj.getParticle(i).getY())); // пересчёт z
-			obj.setParticl(tmp, i);
+			obj.setParticl(tmp.getX(), tmp.getY(), i);
 		}
 	};
 };

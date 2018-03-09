@@ -1,20 +1,19 @@
 #ifndef REPRODUCTION_H
 #define REPRODUCTION_H
 
-#include "Population.h"
-#include "Selector.h"
+//#include "Population.h"
+#include "Strategy.h"
 
-class Reproduction {
+class Reproduction : Strategy {
 public:
 	Reproduction() {};
-	void crossing(Population &obj) {
-		Selector s;
-		Function func;
+
+	void metod (Population &obj) {
 		Particle tmpP1;
 		Particle tmpP2;
-		std::pair<double, double> tmp;
-		for (size_t i = 50; i < 100; ++i, ++i) { // создаю 50 детей
-			tmp = s.choiceParents(); // выбираю двух случайных родителей
+		std::pair<int, int> tmp;
+		for (size_t i = obj.getSize() / 2; i < obj.getSize(); ++i, ++i) { 
+			tmp = choiceParents(obj.getSize() / 2);  
 			tmpP1.setX((obj.getParticle(tmp.first).getX() + obj.getParticle(tmp.second).getX()) / 2);
 			tmpP2.setY((obj.getParticle(tmp.first).getY() + obj.getParticle(tmp.second).getY()) / 2);
 			if (rand() % 1 == 0) {
@@ -25,11 +24,15 @@ public:
 				tmpP1.setY(obj.getParticle(tmp.second).getY());
 				tmpP2.setX(obj.getParticle(tmp.second).getX());
 			}
-			tmpP1.setZ(func.function_value(obj.getParticle(i).getX(), obj.getParticle(i).getY()));
-			tmpP2.setZ(func.function_value(obj.getParticle(i + 1).getX(), obj.getParticle(i + 1).getY()));
-			obj.setParticl(tmpP1, i);
-			obj.setParticl(tmpP2, i + 1);
+			obj.setParticl(tmpP1.getX(), tmpP1.getY(), i);
+			obj.setParticl(tmpP2.getX(), tmpP2.getY(), i + 1);
 		}
+	};
+
+	std::pair<double, double> choiceParents(const int size) {
+		std::default_random_engine grain;
+		std::uniform_int_distribution<int> rand { 0, size };
+		return std::pair<int, int>(rand(grain), rand(grain));
 	};
 };
 

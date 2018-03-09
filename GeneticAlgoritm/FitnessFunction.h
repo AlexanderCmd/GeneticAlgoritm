@@ -1,27 +1,20 @@
 #ifndef FITNESSFUNCTION_H
 #define FITNESSFUNCTION_H
 
-#include "Population.h"
+#include "Particle.h"
+#include "Function.h"
+#include <memory>   
 
 class FitnessFunction {
 	public:
 	FitnessFunction() {};
 
-	void sort(Population &obj) {
-		double max = 0;
-		Particle tmp;
-		for (size_t i = 0; i < 99; ++i) {
-			max = i;
-			for (size_t j = i + 1; j < 100; ++j) 
-				if (obj.getParticle(j).getZ() > obj.getParticle(max).getZ())
-					max = j;
-			tmp = obj.getParticle(i);
-			obj.setParticl(obj.getParticle(max), i);
-			obj.setParticl(tmp, max);/*
-				obj.getParticle(i).setAll(obj.getParticle(max));
-				obj.getParticle(max).setAll(tmp);*/
-			
-		}
+	const int comparatorMax(const Particle *first, const Particle *second) {
+		return (int) (Function().function_value(first->getX(), first->getY()) - Function().function_value(second->getX(), second->getY()));
+	};
+	
+	const int comparatorMin(const Particle *second, const Particle *first) {
+		return (int)(Function().function_value(first->getX(), first->getY()) - Function().function_value(second->getX(), second->getY()));
 	};
 };
 

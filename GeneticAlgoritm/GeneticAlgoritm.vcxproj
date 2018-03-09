@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChoiceStrategia.h" />
     <ClInclude Include="FitnessFunction.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Mutator.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Population.h" />
     <ClInclude Include="Reproduction.h" />
     <ClInclude Include="Selector.h" />
+    <ClInclude Include="Strategy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

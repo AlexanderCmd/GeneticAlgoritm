@@ -3,36 +3,35 @@
 
 #include <iostream>
 #include <vector>
-#include <time.h>
-#include "Function.h"
+#include <random>
 #include "Particle.h"
 
 class Population {
-private:
+protected:
 	std::vector<Particle> population;
 public:
-	Population() {
-		srand(time(NULL));
-		Function func;
-		for (size_t i = 0; i < 50; ++i) {    // начальная популяция заданная рандомом
-			population.push_back (Particle(-500 + rand() % 1000, -500 + rand() % 1000));
-			population[i].setZ(func.function_value(population[i].getX(), population[i].getY()));
+	Population() {};
+	Population(const size_t size) {
+		std::default_random_engine grain;
+		std::uniform_int_distribution<int> rand{ -500, 500 };
+		for (size_t i = 0; i < size / 2; ++i) {    // начальная популяция заданная рандомом
+			population.push_back (Particle(rand(grain), rand(grain)));
 		}
 
-		for (size_t i = 0; i < 50; ++i) // популяция полученная скрещиванием
+		for (size_t i = 0; i < size / 2; ++i) // популяция полученная скрещиванием
 			population.push_back (Particle());
 	};
 
 	Particle getParticle(const size_t index) {
 		return population[index];
-	}
+	};
 
-	void setParticl(const Particle &obj, const size_t index) {
-		population[index].setAll(obj);
-	}
-
-	Particle print() {
-		return population[0];
+	void setParticl(const double x, const double y, const size_t index) {
+		population[index].setAll(x, y);
+	};
+	
+	const size_t getSize() {
+		return population.size();
 	};
 };
 

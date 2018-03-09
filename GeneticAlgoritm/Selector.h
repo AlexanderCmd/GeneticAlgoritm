@@ -2,12 +2,15 @@
 #define SELECTOR_H
 
 #include "Population.h"
+#include "FitnessFunction.h"
+#include "Strategy.h"
 
-class Selector {
+class Selector : public Strategy {
 public:
 	Selector() {};
-	std::pair<double, double> choiceParents () {
-		return std::pair<double, double>((double)(rand() % 50), (double)(rand() % 50));
+
+	void sort(Population &obj) {
+		std::qsort(population.begin, population.size, sizeof (Particle), FitnessFunction().comparatorMax);
 	};
 };
 
